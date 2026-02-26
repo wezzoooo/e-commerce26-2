@@ -15,7 +15,7 @@ export async function checkoutOnlineSession(cartId: string, formData: CheckoutSc
     if (!token) {
         throw new Error("you are not authorized to do this action")
     }
-    const response = await fetch(`${API_URL}/orders/checkout-session/${cartId}?url=http://localhost:3000`, {
+    const response = await fetch(`${API_URL}/orders/checkout-session/${cartId}?url=https://e-commerce26-2.vercel.app`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
