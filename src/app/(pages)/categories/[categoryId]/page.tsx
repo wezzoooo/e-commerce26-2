@@ -6,18 +6,15 @@ import { getAllProducts } from '@/services/products.services'
 import { ProductI } from '@/interface/product'
 import Link from 'next/link'
 import AddCartButton from '@/components/products/addToCartBtn';
-import { Star } from 'lucide-react';
+import { Star, Layers } from 'lucide-react';
 import { getSpecificCategory } from '@/services/categories.services';
 import { CategoryI } from '@/interface/categories';
 import BrandLink from '@/components/brandLink/brandLink';
 import { getSubCategoriesOnCategory } from '@/services/subcategories.services';
 import { SubCategoryI } from '@/interface/subcategories';
-import { Layers } from 'lucide-react'
 import WishlistHeartBtn from '@/components/products/wishlistHeartBtn';
 
-
 export default async function CategoryDetails({ params }: { params: Promise<{ categoryId: string }> }) {
-
     const { categoryId } = await params
     const response = await getSpecificCategory(categoryId)
 
@@ -34,57 +31,74 @@ export default async function CategoryDetails({ params }: { params: Promise<{ ca
         (prod) => prod.category?._id === category._id
     )
 
-
     const subCategoriesResponse = await getSubCategoriesOnCategory(category._id)
     const subCategories: SubCategoryI[] = subCategoriesResponse.data.filter(
         (sub: SubCategoryI) => sub.category === category._id
     )
 
-
     return (
         <main>
-            <div className="max-w-7xl mx-auto">
-                <Breadcrumb className='my-3'>
+            <div className="max-w-7xl mx-auto px-4">
+                {/* Breadcrumb */}
+                <Breadcrumb className='my-6'>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink className='text-lg' href="/">Home</BreadcrumbLink>
+                            <BreadcrumbLink className='text-lg hover:underline' href="/">Home</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink className='text-lg' href="/categories">Categories</BreadcrumbLink>
+                            <BreadcrumbLink className='text-lg hover:underline' href="/categories">Categories</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage className='text-lg font-bold'>category Details</BreadcrumbPage>
+                            <BreadcrumbPage className='text-lg font-bold'>Category Details</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                <Card className='grid grid-cols-3 mb-3 max-w-80 m-auto sm:max-w-lg md:max-w-2xl lg:max-w-4xl'>
-                    <div className="col-span-3">
-                        <div className='w-full h-100 relative'>
-                            <Image fill src={category.image} className='object-contain' alt='productImage' />
+
+                {/* Category Card */}
+                <Card
+                    className=" grid grid-cols-3 mb-10 max-w-80 m-auto sm:max-w-lg md:max-w-2xl lg:max-w-4xl bg-card text-card-foreground rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl "
+                >
+                    <div className="col-span-3 group">
+                        <div className='w-full h-80 relative overflow-hidden'>
+                            <Image
+                                fill
+                                src={category.image}
+                                className='object-contain transition-transform duration-300 group-hover:scale-105'
+                                alt='productImage'
+                            />
                         </div>
                     </div>
-                    <div className="col-span-3 flex items-center ">
+
+                    <div className="col-span-3 flex items-center">
                         <div className='w-full space-y-7 text-center'>
                             <CardHeader>
-                                <CardTitle className='text-4xl'>{category.name}</CardTitle>
+                                <CardTitle className='text-4xl transition-colors'>
+                                    {category.name}
+                                </CardTitle>
                             </CardHeader>
                         </div>
                     </div>
                 </Card>
-                <div className="my-10">
-                    <h2 className="text-2xl font-bold mb-5">Sub Categories</h2>
+
+                {/* Sub Categories */}
+                <div className="my-14">
+                    <h2 className="text-2xl font-bold mb-6">Sub Categories</h2>
+
                     {subCategories.length === 0 ? (
-                        <p className="text-gray-500">No sub categories found for this category</p>
+                        <p className="text-muted-foreground">No sub categories found for this category</p>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {subCategories.map((sub) => (
-                                <Card key={sub._id} className="h-full hover:shadow-md transition">
-                                    <Link href={`/subcategories/${sub._id}`}>
+                                <Card
+                                    key={sub._id}
+                                    className=" h-full rounded-xl overflow-hidden bg-card text-card-foreground transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1">
+                                    <Link href={`/subcategories/${sub._id}`} className="group">
                                         <CardContent className="flex flex-col items-center justify-center gap-3 py-10">
-                                            <Layers className="size-10 text-gray-500" />
-                                            <CardDescription className="font-bold text-black text-lg">
+                                            <Layers className="size-10 text-muted-foreground transition-transform duration-300 group-hover:scale-110" />
+                                            <CardDescription
+                                                className=" font-bold text-lg transition-colors duration-200 text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black px-3 py-1 rounded-md">
                                                 {sub.name}
                                             </CardDescription>
                                         </CardContent>
@@ -95,35 +109,51 @@ export default async function CategoryDetails({ params }: { params: Promise<{ ca
                     )}
                 </div>
 
-                <div className="my-10">
-                    <h2 className="text-2xl font-bold mb-5">Products from this category</h2>
+                {/* Products */}
+                <div className="my-14">
+                    <h2 className="text-2xl font-bold mb-6">Products from this category</h2>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-6">
                         {categoryProducts.map((prod) => (
                             <div key={prod._id}>
-                                <Card className='h-full flex flex-col hover:shadow-xl transition-shadow duration-300 rounded-2xl overflow-hidden'>
-                                    <div>
-                                        <Link href={`/products/${prod._id}`} className="block relative aspect-square">
-                                            <Image fill className="object-cover hover:scale-105 transition-transform duration-300" src={prod.imageCover} alt='productImage' />
+                                <Card
+                                    className=" h-full flex flex-col rounded-2xl overflow-hidden bg-card text-card-foreground transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1"
+                                >
+                                    <Link href={`/products/${prod._id}`} className="block relative aspect-square group overflow-hidden">
+                                        <Image
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                            src={prod.imageCover}
+                                            alt='productImage'
+                                        />
+                                    </Link>
+
+                                    <CardHeader className='my-2'>
+                                        <CardDescription>
+                                            <BrandLink brandId={prod.brand._id}>{prod.brand?.name}</BrandLink>
+                                        </CardDescription>
+
+                                        <Link href={`/products/${prod._id}`}>
+                                            <CardTitle className="transition-colors hover:underline">
+                                                {prod.title}
+                                            </CardTitle>
+                                            <CardDescription>{prod.category.name}</CardDescription>
                                         </Link>
-
-                                        <CardHeader className='my-2'>
-                                            <CardDescription><BrandLink brandId={prod.brand._id}>{prod.brand?.name}</BrandLink></CardDescription>
-
-                                            <Link href={`/products/${prod._id}`}>
-                                                <CardTitle>{prod.title}</CardTitle>
-                                                <CardDescription>{prod.category.name}</CardDescription>
-                                            </Link>
-                                        </CardHeader>
-                                    </div>
+                                    </CardHeader>
 
                                     <CardContent className='flex gap-1 items-center mt-auto'>
                                         {[0, 1, 2, 3, 4].map((star, index) => {
                                             const filledStar = star < Math.round(prod.ratingsAverage);
-                                            return <Star key={index} className={`size-6 ${filledStar ? "text-yellow-500 fill-yellow-500" : "text-gray-500 fill-gray-500"}`} />
+                                            return (
+                                                <Star
+                                                    key={index}
+                                                    className={`size-6 ${filledStar ? "text-yellow-500 fill-yellow-500" : "text-muted-foreground fill-muted-foreground"}`}
+                                                />
+                                            )
                                         })}
                                         <p>{prod.ratingsAverage}</p>
                                     </CardContent>
+
                                     <CardContent>
                                         <p className="text-lg font-semibold">
                                             {prod.price} <span className="text-sm text-muted-foreground">EGP</span>
@@ -135,7 +165,6 @@ export default async function CategoryDetails({ params }: { params: Promise<{ ca
                                         <WishlistHeartBtn productId={prod._id} />
                                     </CardFooter>
                                 </Card>
-
                             </div>
                         ))}
                     </div>

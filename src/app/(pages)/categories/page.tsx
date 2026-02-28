@@ -18,12 +18,12 @@ export default async function Categories() {
           {categories.map((categorie) => <React.Fragment key={categorie._id}>
 
             <Link href={`/categories/${categorie._id}`}>
-              <Card className='h-full  hover:shadow-lg transition rounded-xl overflow-hidden'>
+              <Card className=" h-full rounded-xl overflow-hidden bg-card text-card-foreground transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 ">
                 <div className="relative aspect-square">
                   <Image fill src={categorie.image} className="object-contain p-4" alt="brandImage" />
                 </div>
                 <CardContent className='text-center'>
-                  <CardDescription className='font-bold text-black '>{categorie.name}</CardDescription>
+                  <CardDescription className=" font-bold transition-colors duration-200 text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black inline-block px-2 py-1 rounded-md ">{categorie.name}</CardDescription>
                 </CardContent>
               </Card>
             </Link>

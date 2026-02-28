@@ -31,9 +31,10 @@ export default async function Products() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-6">
           {products.map((prod) => <React.Fragment key={prod._id}>
             <div>
-              <Card className='h-full flex flex-col hover:shadow-xl transition-shadow duration-300 rounded-2xl overflow-hidden'>
+              <Card className="
+  h-full flex flex-col rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 bg-card text-card-foreground">
                 <Link href={`/products/${prod._id}`} className="block relative aspect-square">
-                  <Image fill className="object-cover hover:scale-105 transition-transform duration-300" src={prod.imageCover} alt='productImage' />
+                  <Image fill className="object-cover hover:scale-105 transition-transform duration-300 ease-out" src={prod.imageCover} alt='productImage' />
                 </Link>
                 <CardHeader>
                   <CardDescription><BrandLink brandId={prod.brand._id}>{prod.brand.name}</BrandLink></CardDescription>
@@ -44,7 +45,7 @@ export default async function Products() {
                   {[0, 1, 2, 3, 4].map((star, index) => {
                     const filledStar = star < Math.round(prod.ratingsAverage);
                     return <React.Fragment key={index}>
-                      <Star className={`size-6 ${filledStar ? "text-yellow-500 fill-yellow-500" : "text-gray-500 fill-gray-500"}`} />
+                      <Star className={`size-6 ${filledStar ? "text-yellow-500 fill-yellow-500" : "text-muted-foreground fill-muted-foreground"}`} />
                     </React.Fragment>
                   })}
                   <p>{prod.ratingsAverage}</p>

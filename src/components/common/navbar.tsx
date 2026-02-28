@@ -29,6 +29,7 @@ import { cartContext } from '@/providers/cart-provider'
 import { Spinner } from '../ui/spinner'
 import { wishlistContext } from '@/providers/wishlist-provider'
 import NavSearch from '../navSearch/navSearch'
+import { ThemeToggle } from '../themeToggle/themeToggle'
 
 export default function Navbar() {
     const { data: session, status } = useSession()
@@ -36,8 +37,6 @@ export default function Navbar() {
     const { noOfWishlistItems, isLoading: isWishlistLoading } = useContext(wishlistContext)
 
     const [showSearch, setShowSearch] = useState(false)
-
-
     async function logOutUser() {
         await signOut({ callbackUrl: "/login" })
     }
@@ -49,12 +48,14 @@ export default function Navbar() {
     ]
 
     return (
-        <nav className='bg-[#F5F5F5E5] sticky top-0 z-50 border-b'>
+        <nav className='bg-background/80 backdrop-blur-md  sticky top-0 z-50 border-b transition-colors duration-300'>
             <div className="max-w-7xl mx-auto p-5 flex items-center justify-between">
 
                 <div className="nav-logo flex gap-2 items-center">
                     <Avatar className='rounded-lg'>
-                        <AvatarFallback className='font-bold text-xl rounded-lg bg-black text-white'>S</AvatarFallback>
+                        <AvatarFallback className='font-bold text-xl rounded-lg bg-primary text-primary-foreground transition-colors'>
+                            S
+                        </AvatarFallback>
                     </Avatar>
                     <Link className='font-bold text-2xl' href="/">ShopMart</Link>
                 </div>
@@ -64,7 +65,10 @@ export default function Navbar() {
                         {navLinks.map((link) => (
                             <NavigationMenuItem key={link.href}>
                                 <NavigationMenuLink asChild>
-                                    <Link href={link.href} className='hover:bg-black hover:text-white px-3 py-2 rounded-md transition-colors'>
+                                    <Link
+                                        href={link.href}
+                                        className='px-3 py-2 rounded-md transition-colors  hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black'
+                                    >
                                         {link.name}
                                     </Link>
                                 </NavigationMenuLink>
@@ -107,6 +111,8 @@ export default function Navbar() {
                         </DropdownMenuContent>
                     </DropdownMenu>
 
+                    <ThemeToggle />
+
                     {status === "authenticated" && (
                         <>
                             <Link href="/cart">
@@ -132,11 +138,15 @@ export default function Navbar() {
                     <button onClick={() => setShowSearch(prev => !prev)} className="hidden md:block">
                         <Search className="size-6 cursor-pointer" />
                     </button>
+
                     <div
-                        className={`absolute left-0 right-0 top-full bg-white shadow-md p-4 
+                        className={`
+                            absolute left-0 right-0 top-full
+                            bg-background shadow-md p-4 
                             hidden md:block
                             transition-all duration-300 ease-out
-                            ${showSearch ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3 pointer-events-none"}`}
+                            ${showSearch ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3 pointer-events-none"}
+                            `}
                     >
                         <NavSearch onClose={() => setShowSearch(false)} />
                     </div>
@@ -150,7 +160,7 @@ export default function Navbar() {
 
                         <SheetContent
                             side="right"
-                            className="md:hidden w-[85%] max-w-sm bg-white p-4 shadow-xl"
+                            className="md:hidden w-[85%] max-w-sm bg-background p-4 shadow-xl transition-colors duration-300"
                         >
                             <div className="space-y-4 mt-12">
                                 <NavSearch />
@@ -160,7 +170,7 @@ export default function Navbar() {
                                         <SheetClose asChild key={link.href}>
                                             <Link
                                                 href={link.href}
-                                                className="text-left p-3 rounded-md hover:bg-black hover:text-white transition-colors font-medium"
+                                                className="text-left p-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors font-medium"
                                             >
                                                 {link.name}
                                             </Link>
@@ -172,7 +182,6 @@ export default function Navbar() {
                     </Sheet>
                 </div>
             </div>
-
-        </nav >
+        </nav>
     )
 }

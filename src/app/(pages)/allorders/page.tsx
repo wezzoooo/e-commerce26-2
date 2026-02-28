@@ -10,7 +10,7 @@ export default async function AllOrders() {
   const session = await getServerSession(authOptions)
 
   if (!session?.token) {
-    return <div className="text-center mt-20 text-xl">You must be logged in</div>
+    return <div className="text-center mt-20 text-xl h-screen">You must be logged in</div>
   }
 
   const data = await getUserOrders()
@@ -19,7 +19,7 @@ export default async function AllOrders() {
   
 
   if (!orders?.length) {
-    return <div className="text-center mt-20 text-xl">No orders yet</div>
+    return <div className="text-center mt-20 text-xl h-screen font-black">No orders yet</div>
   }
 
   return (

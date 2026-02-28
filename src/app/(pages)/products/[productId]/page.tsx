@@ -100,7 +100,7 @@ export default async function ProductDetails({ params }: { params: Promise<Produ
                                 {[0, 1, 2, 3, 4].map((star, index) => {
                                     const filledStar = star < Math.round(product.ratingsAverage);
                                     return <React.Fragment key={index}>
-                                        <Star className={`size-6 ${filledStar ? "text-yellow-500 fill-yellow-500" : "text-gray-500 fill-gray-500"}`} />
+                                        <Star className={`size-6 ${filledStar ? "text-yellow-500 fill-yellow-500" : "text-muted-foreground fill-muted-foreground"}`} />
                                     </React.Fragment>
                                 })}
                                 <p>{product.ratingsAverage}</p>

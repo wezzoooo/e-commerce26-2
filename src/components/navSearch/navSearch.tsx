@@ -84,6 +84,7 @@ export default function NavSearch({ onClose }: { onClose?: () => void }) {
                 placeholder="Search anything..."
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
+                className="pr-14"
             />
 
             {q && (
@@ -95,27 +96,22 @@ export default function NavSearch({ onClose }: { onClose?: () => void }) {
                         setSubCategories([])
                         setBrands([])
                     }}
-                    className="absolute right-2 top-2 text-muted-foreground hover:text-black"
-                >
+                    className=" absolute right-2 top-2  text-muted-foreground  hover:text-foreground transition-colors">
                     <X className="size-5" />
                 </button>
             )}
 
             {/* Spinner */}
             {loading && (
-                <div className="absolute right-8 top-2">
+                <div className="absolute right-9 top-2">
                     <Spinner />
                 </div>
             )}
 
-            {/* Dialog النتائج */}
+            {/* Results Dialog */}
             {(q || loading) && (
                 <div
-                    className="
-            absolute mt-2 w-full bg-white rounded-xl shadow-xl border
-            transition-all duration-200
-            animate-in fade-in-0 zoom-in-95
-            z-50"
+                    className=" absolute mt-2 w-full  rounded-xl border shadow-xl bg-popover text-popover-foreground transition-all duration-200 ease-out animate-in fade-in-0 zoom-in-95 z-50 "
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between px-3 py-2 border-b text-sm text-muted-foreground">
@@ -139,8 +135,7 @@ export default function NavSearch({ onClose }: { onClose?: () => void }) {
                                         key={p._id}
                                         href={`/products/${p._id}`}
                                         onClick={() => onClose?.()}
-                                        className="block text-sm hover:underline"
-                                    >
+                                        className=" block text-sm rounded-md px-2 py-1 hover:bg-accent hover:text-accent-foreground transition-colors ">
                                         {p.title}
                                     </Link>
                                 ))}
@@ -155,8 +150,7 @@ export default function NavSearch({ onClose }: { onClose?: () => void }) {
                                         key={c._id}
                                         href={`/categories/${c._id}`}
                                         onClick={() => onClose?.()}
-                                        className="block text-sm hover:underline"
-                                    >
+                                        className=" block text-sm rounded-md px-2 py-1 hover:bg-accent hover:text-accent-foreground transition-colors ">
                                         {c.name}
                                     </Link>
                                 ))}
@@ -171,8 +165,7 @@ export default function NavSearch({ onClose }: { onClose?: () => void }) {
                                         key={s._id}
                                         href={`/subcategories/${s._id}`}
                                         onClick={() => onClose?.()}
-                                        className="block text-sm hover:underline"
-                                    >
+                                        className=" block text-sm rounded-md px-2 py-1 hover:bg-accent hover:text-accent-foreground transition-colors">
                                         {s.name}
                                     </Link>
                                 ))}
@@ -187,8 +180,7 @@ export default function NavSearch({ onClose }: { onClose?: () => void }) {
                                         key={b._id}
                                         href={`/brands/${b._id}`}
                                         onClick={() => onClose?.()}
-                                        className="block text-sm hover:underline"
-                                    >
+                                        className=" block text-sm rounded-md px-2 py-1 hover:bg-accent hover:text-accent-foreground transition-colors">
                                         {b.name}
                                     </Link>
                                 ))}

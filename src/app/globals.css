@@ -119,11 +119,13 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   }
   body {
     @apply bg-background text-foreground;
   }
-  ul, li {
+  ul,
+  li {
     list-style-type: none;
   }
 }
